@@ -8,5 +8,5 @@
         server-->>browser: {"message":"note created}
         deactivate server
 
-        browser->>browser: updates list items to include new note
+        Note right of browser: updates list items to include new note
 ```
