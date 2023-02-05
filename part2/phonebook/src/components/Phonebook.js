@@ -4,7 +4,7 @@ const Phonebook = ({people, searchText}) => {
         <div>
             <h2>Numbers</h2>
             {people.map(person => {
-            if(person.name.toLowerCase().indexOf(searchText) != -1)
+            if(person.name.toLowerCase().indexOf(searchText.toLowerCase()) != -1)
                 return <PhonebookEntry person={person} key={person.name}/>
             })}
         </div>
@@ -14,7 +14,11 @@ const Phonebook = ({people, searchText}) => {
 
 
 const PhonebookEntry = ({person}) => {
-    return <p>{person.name}{person.number? ":": ""} {person.number}</p>
+    return (
+        <div>
+            {person.name}{person.number? ":": ""} {person.number}
+        </div>
+    )
 }
 
 
