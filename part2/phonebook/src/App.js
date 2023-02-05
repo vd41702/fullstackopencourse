@@ -6,6 +6,7 @@ import contactsService from './services/contactsService'
 import Phonebook from './components/Phonebook'
 import PhonebookInputForm from './components/PhonebookInputForm'
 import PhonebookSearch from './components/PhonebookSearch'
+import AlertNotif from './components/AlertNotif'
 
 const App = () => {
   const [people, setPeople] = useState([])
@@ -81,6 +82,7 @@ const App = () => {
     
     <div>
       <h2>Phonebook</h2>
+      <AlertNotif message={"testing"} isNotif={false}/>
       <PhonebookInputForm
        newName = {newName}
        newNum = {newNumber}
