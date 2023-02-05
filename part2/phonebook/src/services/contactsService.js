@@ -33,17 +33,11 @@ const initContacts = [
 const getAllContacts = () => {
     const request = axios.get(baseURL)
     return request.then(response => response.data)
-    .catch(error => {
-        console.log("get all failed")
-    })
 }
 
 const createContact = newContact => {
     const request = axios.post(baseURL, newContact)
     return request.then(response => response.data)
-    .catch(error => {
-        console.log("create contact failed")
-    })
 }
 
 const updateContact = (id, newContact) => {
@@ -54,9 +48,6 @@ const updateContact = (id, newContact) => {
 const deleteContact = id => {
     const request = axios.delete(`${baseURL}/${id}`)
     return request.then(response => response.data)
-    .catch(error => {
-        console.log("delete contact failed")
-    })
 }
 
 export default { getAllContacts, createContact, updateContact, deleteContact }
