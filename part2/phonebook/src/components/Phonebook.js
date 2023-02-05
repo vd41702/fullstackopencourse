@@ -1,5 +1,5 @@
 const Phonebook = ({people, searchText}) => {
-    //console.table(people)
+    // console.table(people)
     return (
         <div>
             <h2>Numbers</h2>

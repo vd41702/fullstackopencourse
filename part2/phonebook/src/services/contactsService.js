@@ -49,9 +49,6 @@ const createContact = newContact => {
 const updateContact = (id, newContact) => {
     const request = axios.put(`${baseURL}/${id}`, newContact)
     return request.then(response => response.data)
-    .catch(error => {
-        console.log("update contact failed")
-    })
 }
 
 const deleteContact = id => {
