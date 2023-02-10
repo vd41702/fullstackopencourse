@@ -24,10 +24,10 @@ const WeatherData = ({country}) => {
 
     return (
     <div>
-        <p>temperature: {weatherData.main.temp}</p>
+        <p>temperature: {weatherData.main.temp} °F</p>
         <img src={`${weatherPicURL}${weatherData.weather[0].icon}@2x.png`} alt={`The current weather status in ${country.capital}`}/>
         <p>{weatherData.weather[0].description}</p>
-        <p>wind speed: {weatherData.wind.speed}</p>
+        <p>wind speed: {weatherData.wind.speed} mph</p>
     </div>
     )
 }

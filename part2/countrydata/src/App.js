@@ -9,9 +9,15 @@ import CountrySearch from "./components/CountrySearch";
 function App() {
     const [searchString, setSearchString] = useState('')
     const [countries, setCountries] = useState(null)
+    const [countrySelected, setCountrySelected] = useState(null)
 
 
     const handleSearchStringChange = event => setSearchString(event.target.value)
+    const handleCountrySelection = event => {
+      setCountrySelected(event.target.getAttribute("data-index"))
+    }
+
+    const resetCountrySelection = () => setCountrySelected(null)
 
     useEffect(() => {
       console.log("fetching country data")
@@ -31,24 +37,33 @@ function App() {
     <div>
       <CountrySearch 
       onStringChange={handleSearchStringChange}
-      searchString={searchString}/>
+      searchString={searchString}
+      resetCountrySelection={resetCountrySelection}
+      countrySelected={countrySelected}/>
 
       <CountriesData
-      filteredCountries={filterCountries(countries, searchString.toLowerCase())}/>
+      filteredCountries={filterCountries(countries, searchString.toLowerCase(), countrySelected)}
+      onSelectCountry={handleCountrySelection}/>
     </div>
 
   );
 }
 
 
-const filterCountries = (countries, searchString) => {
+const filterCountries = (countries, searchString, countrySelected) => {
   if(!countries) {
     return []
   }
 
-  return countries.filter(country => {
+  if(countrySelected) {
+    return [countries[countrySelected]]
+  }
+
+  return countries.map((country, index) => {return {...country, index}})
+  .filter(country => {
     return country.name.common.toLowerCase().indexOf(searchString) !== -1
   })
+  
 }
 
 

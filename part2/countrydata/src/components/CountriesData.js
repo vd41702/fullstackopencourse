@@ -2,7 +2,7 @@ import WeatherData from "./WeatherData"
 
 
 
-const CountriesData = ({ filteredCountries }) => {
+const CountriesData = ({ filteredCountries,  onSelectCountry}) => {
 
 
     if(filteredCountries.length > 10) {
@@ -14,16 +14,27 @@ const CountriesData = ({ filteredCountries }) => {
     }
 
     return (
-        <div>
+        <div className="countryRows">
             <h4>Countries</h4>
-            {filteredCountries.map(country => <CountryRow name={country.name.common} key={country.name.common}/>)}
+            {filteredCountries.map(country => {
+                return (
+                <CountryRow name={country.name.common} 
+                key={country.name.common} 
+                selectCountry={onSelectCountry}
+                index={country.index}/>
+            )})}
         </div>
     )
 }
 
 
-const CountryRow = ({ name }) => {
-    return <p>{name}</p>
+const CountryRow = ({ name, selectCountry, index }) => {
+    return (
+        <div className="countryRow">
+            <p>{name}</p>
+            <button onClick={selectCountry} data-index={index}>Select</button>
+        </div>
+    )
 }
 
 const CountryData = ({ country }) => {
