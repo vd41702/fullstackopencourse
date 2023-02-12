@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseURL = "http://localhost:3001/people"
+const baseURL = "https://empty-fire-6002.fly.dev/api/contacts"
 /*
 {
   "people":[
