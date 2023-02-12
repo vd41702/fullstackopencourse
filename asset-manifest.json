@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/fullstackopencourse/static/css/main.971b3525.css",
+    "main.js": "/fullstackopencourse/static/js/main.92059af8.js",
+    "index.html": "/fullstackopencourse/index.html",
+    "main.971b3525.css.map": "/fullstackopencourse/static/css/main.971b3525.css.map",
+    "main.92059af8.js.map": "/fullstackopencourse/static/js/main.92059af8.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.971b3525.css",
+    "static/js/main.92059af8.js"
+  ]
+}
