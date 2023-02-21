@@ -88,13 +88,13 @@ app.delete('/api/contacts/:id', (request, response, next) => {
 app.post('/api/contacts', (request, response, next) => {
     const body = request.body
 
-    if(!body.name) {
-        return response.status(400).json({error: 'missing name'})
-    }
+    // if(!body.name) {
+    //     return response.status(400).json({error: 'missing name'})
+    // }
 
-    if(!body.number) {
-        return response.status(400).json({error: 'missing number'})
-    }
+    // if(!body.number) {
+    //     return response.status(400).json({error: 'missing number'})
+    // }
 
     /**
      * TODO: check for duplicate name
@@ -114,30 +114,24 @@ app.post('/api/contacts', (request, response, next) => {
     contact.save()
     .then(res => {
         console.log("contact saved!")
+        response.json(contact)
     })
     .catch(error => next(error))
 
-    response.json(contact)
+    
 })
 
 /** Put Requests */
 app.put('/api/contacts/:id', (request, response, next) => {
     const body = request.body
-  
-    if(!body.name) {
-        return response.status(400).json({error: 'missing name'})
-    }
-
-    if(!body.number) {
-        return response.status(400).json({error: 'missing number'})
-    }
 
     const contact = {
         name: body.name,
         number: body.number
     }
   
-    Contact.findByIdAndUpdate(request.params.id, contact, { new: true })
+    Contact.findByIdAndUpdate(request.params.id, contact, 
+        { new: true, runValidators: true, context: 'query' })
       .then(updatedContact => {
         response.json(updatedContact)
       })
@@ -158,8 +152,10 @@ const errorHandler = (error, request, response, next) => {
     console.error(error.message)
   
     if (error.name === 'CastError') {
-      return response.status(400).send({ error: 'malformatted id' })
-    } 
+        return response.status(400).send({ error: 'malformatted id' })
+    } else if (error.name === 'ValidationError') {
+        return response.status(400).json({ error: error.message })
+    }
   
     next(error)
   }
