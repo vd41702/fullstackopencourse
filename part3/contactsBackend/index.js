@@ -34,37 +34,41 @@ app.use(morgan((tokens, req, res) => {
 /*** Get Requests ***/
 
 // get home page
-app.get('/', (request, response) => {
+app.get('/', (request, response, next) => {
     response.send('<h1>Hello World!</h1>')
 })
 
 // get information
-app.get('/info', (request, response) => {
-    Contact.find({}).then(contacts => {
+app.get('/info', (request, response, next) => {
+    Contact.find({})
+    .then(contacts => {
         response.send(`<p>The phonebook has the information of ${contacts.length} people</p>
         <p>${Date()}</p>`)
         mongoose.connection.close()
-    }).catch(err => {
-        console.log(err.message)
     })
+    .catch(error => next(error))
 })
 
 // get all contacts
-app.get('/api/contacts', (request, response) => {
-    Contact.find({}).then(contacts => {
+app.get('/api/contacts', (request, response, next) => {
+    Contact.find({})
+    .then(contacts => {
         response.json(contacts)
-    }).catch(err => {
-        console.log(err.message)
     })
+    .catch(error => next(error))
 })
 
 // get contact by id
-app.get('/api/contacts/:id', (request, response) => {
-    Contact.findById(request.params.id).then(contact => {
-        response.json(contact)
-    }).catch(err => {
-        console.log(err)
+app.get('/api/contacts/:id', (request, response, next) => {
+    Contact.findById(request.params.id)
+    .then(contact => {
+        if(contact) {
+            response.json(contact)
+        } else {
+            response.status(404).end()
+        }
     })
+    .catch(error => next(error))
 })
 
 
@@ -80,7 +84,7 @@ app.get('/api/contacts/:id', (request, response) => {
 
 /*** Post Requests ***/
 // post new contact
-app.post('/api/contacts', (request, response) => {
+app.post('/api/contacts', (request, response, next) => {
     const body = request.body
 
     if(!body.name) {
@@ -106,9 +110,12 @@ app.post('/api/contacts', (request, response) => {
         number: body.number
     })
 
-    contact.save().then(res => {
+    contact.save()
+    .then(res => {
         console.log("contact saved!")
     })
+    .catch(error => next(error))
+
     response.json(contact)
 })
 
@@ -120,6 +127,19 @@ const unknownEndpoint = (request, response) => {
 }
 
 app.use(unknownEndpoint)
+
+// error handler
+const errorHandler = (error, request, response, next) => {
+    console.error(error.message)
+  
+    if (error.name === 'CastError') {
+      return response.status(400).send({ error: 'malformatted id' })
+    } 
+  
+    next(error)
+  }
+  
+  app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT)
