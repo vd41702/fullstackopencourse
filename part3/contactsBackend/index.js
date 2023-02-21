@@ -68,14 +68,14 @@ app.get('/api/contacts/:id', (request, response) => {
 })
 
 
-/*** Delete Requests ***/
-// delete contact by id
-app.delete('/api/contacts/:id', (request, response) => {
-    const id = Number(request.params.id)
-    contacts = contacts.filter(contact => contact.id !== id)
+// /*** Delete Requests ***/
+// // delete contact by id
+// app.delete('/api/contacts/:id', (request, response) => {
+//     const id = Number(request.params.id)
+//     contacts = contacts.filter(contact => contact.id !== id)
 
-    response.status(204).end()
-})
+//     response.status(204).end()
+// })
 
 
 /*** Post Requests ***/
