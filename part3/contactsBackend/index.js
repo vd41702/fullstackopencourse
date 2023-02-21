@@ -72,14 +72,15 @@ app.get('/api/contacts/:id', (request, response, next) => {
 })
 
 
-// /*** Delete Requests ***/
-// // delete contact by id
-// app.delete('/api/contacts/:id', (request, response) => {
-//     const id = Number(request.params.id)
-//     contacts = contacts.filter(contact => contact.id !== id)
-
-//     response.status(204).end()
-// })
+/*** Delete Requests ***/
+// delete contact by id
+app.delete('/api/contacts/:id', (request, response, next) => {
+    Contact.findByIdAndRemove(request.params.id)
+    .then(result => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
+})
 
 
 /*** Post Requests ***/
@@ -118,6 +119,30 @@ app.post('/api/contacts', (request, response, next) => {
 
     response.json(contact)
 })
+
+/** Put Requests */
+app.put('/api/contacts/:id', (request, response, next) => {
+    const body = request.body
+  
+    if(!body.name) {
+        return response.status(400).json({error: 'missing name'})
+    }
+
+    if(!body.number) {
+        return response.status(400).json({error: 'missing number'})
+    }
+
+    const contact = {
+        name: body.name,
+        number: body.number
+    }
+  
+    Contact.findByIdAndUpdate(request.params.id, contact, { new: true })
+      .then(updatedContact => {
+        response.json(updatedContact)
+      })
+      .catch(error => next(error))
+  })
 
 
 
